@@ -9,6 +9,13 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Device } from '@ionic-native/device/ngx';
+import { Network } from '@ionic-native/network/ngx';
+
+import { NetworkService, ToastService } from '@app/services';
+import { ControllerService } from '@app/services/controller';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -16,6 +23,12 @@ import { AppComponent } from './app.component';
   providers: [
     StatusBar,
     SplashScreen,
+    NativeStorage,
+    Device,
+    Network,
+    ControllerService,
+    NetworkService,
+    ToastService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

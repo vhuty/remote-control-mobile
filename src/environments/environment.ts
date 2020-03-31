@@ -2,8 +2,10 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+export const env = {
+  production: false,
+  apiUrlHttp: 'http://remote-control-server-node.herokuapp.com:80',
+  apiUrlWs: 'ws://remote-control-server-node.herokuapp.com:80'
 };
 
 /*

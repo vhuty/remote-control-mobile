@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Bind device
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="scan-container">
+    <ion-row>
+      <ion-col>
+        <ion-input #inputKey placeholder="Enter Key"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-button color="tertiary" shape="round">Bind</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="scan-row">
+      <ion-col>
+        <ion-button class="scan-btn" size="large" (click)="scanCode()">
+          <ion-icon name="qr-scanner"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
