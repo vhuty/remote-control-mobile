@@ -18,3 +18,18 @@
 ion-icon {
     font-size: 3em;
 }
+
+#video {
+    width: 100% !important;
+    height: auto !important;
+}
+
+video::-webkit-media-controls-timeline, 
+video::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-timeline-container,
+video::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-volume-slider-container 
+{
+    display:none;
+}

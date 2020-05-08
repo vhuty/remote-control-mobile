@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { ModalController, Events, LoadingController } from '@ionic/angular';
 
-import { ControllerService } from '@app/services/controller';
+import { ApiService } from '@app/services/api';
 
 import { DeviceActComponent } from './device-act/device-act.component';
 import { ToastService } from '@app/services';
@@ -10,18 +10,48 @@ import { ToastService } from '@app/services';
   templateUrl: 'devices.page.html',
   styleUrls: ['devices.page.scss'],
 })
-export class Devices {
+export class Devices implements OnInit {
   private devices = [];
 
   constructor(
-    private controller: ControllerService,
+    private api: ApiService,
     private modalController: ModalController,
-    private toast: ToastService
+    public loadingController: LoadingController,
+    private toast: ToastService,
+    private events: Events
   ) {}
+
+  async ngOnInit() {
+    await this.api.sync();
+
+    this.api.connection.addEventListener('message', async (event) => {
+      const message = JSON.parse(event.data);
+      const { source, data, status, signal } = message;
+
+      const device = this.devices.find(({ id }) => id === source);
+
+      if(device) {
+        if (status) {
+          this.toast.present(`${device.name} is ${status}`);
+          this.events.publish('device:status', source, status);
+          
+          this.devices = await this.api.getDevices();
+        }
+
+        if (signal) {
+          this.events.publish('device:signal', source, signal);
+        }
+
+        if (data) {
+          this.toast.present(`${device.name}: ${data}`);
+        }
+      }
+    });
+  }
 
   async ionViewWillEnter() {
     try {
-      const devices = await this.controller.getDevices();
+      const devices = await this.api.getDevices();
       this.devices = devices;
     } catch (err) {
       console.error(err);
@@ -32,9 +62,9 @@ export class Devices {
     const { key } = device;
 
     try {
-      await this.controller.unbind(key);
+      await this.api.unbind(key);
 
-      this.devices = await this.controller.getDevices();
+      this.devices = await this.api.getDevices();
     } catch (err) {
       console.error(err);
     }
@@ -45,52 +75,61 @@ export class Devices {
    * @param device A device entity
    */
   async activateDevice(device) {
-    const { id } = device;
+    const { connection, controller } = this.api;
 
     try {
-      const connection = this.controller.connect(id);
+      const loading = await this.loadingController.create({
+        message: 'Establishing connection...'
+      });
+
+      loading.present();
 
       const modal = await this.modalController.create({
         component: DeviceActComponent,
         componentProps: {
           device,
+          controller,
           connection,
+          loading,
         },
       });
 
-      connection.onopen = _ => {
-        modal.present();
-      };
+      const peer = new SimplePeer({
+        initiator: true,
+        trickle: false,
+      });
 
-      connection.onclose = async event => {
-        const { code, reason } = event;
+      peer.on('signal', signal => {
+        const data = JSON.stringify({
+          source: controller.uuid,
+          target: device.id,
+          signal,
+        });
 
-        switch (code) {
-          case 4004: {
-            //TODO: not found device logic
+        connection.send(data);
+      });
 
-            this.toast.present(reason);
-
-            break;
-          }
-
-          default: {
-            await modal.dismiss();
-
-            this.toast.present(reason);
-
-            break;
-          }
+      this.events.subscribe('device:signal', (source, signal) => {
+        if (source === device.id) {
+          peer.signal(signal);
         }
-      };
+      });
 
-      connection.onerror = _ => {
-        modal.dismiss();
-      };
+      this.events.subscribe('device:status', (source, status) => {
+        if (source === device.id && status === 'offline') {
+          modal.dismiss();
+        }
+      });
 
-      await modal.onWillDismiss();
+      peer.on('stream', async stream => {
+        modal.componentProps.stream = stream;
 
-      connection.close();
+        await modal.present();
+        device.status = 'waiting';
+
+        await modal.onWillDismiss();
+        peer.destroy();
+      });
     } catch (err) {
       console.error(err);
     }

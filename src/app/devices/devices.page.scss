@@ -1,3 +1,84 @@
 ion-card {
   width: 100%;
 }
+
+.status {
+  $size: 18px;
+  display: inline-block;
+  margin: 4px;
+  width: $size;
+  height: $size;
+  border-radius: $size/2;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+
+  &:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  
+  &.offline {
+    $color: #ed9f03;
+    border-color: $color;
+    border-width: 2px;
+    
+    &:before {
+      content: '';
+      $size: 10px;
+      margin-left: -$size/2;
+      margin-top: -$size/2;
+      width: $size;
+      height: $size;
+      background: $color;
+      border-radius: $size/2;
+    }
+  }
+  
+  &.online {
+    $color: #3cb87e;
+    border-color: $color;
+    border-width: 2px;
+    backface-visibility: none;
+    perspective: 1000;
+    transform: translate3d(0,0,0);
+    
+    &:before {
+      content: '';
+      $size: 10px;
+      margin-left: -$size/2;
+      margin-top: -$size/2;
+      width: $size;
+      height: $size;
+      background: $color;
+      border-radius: $size/2;
+      animation-duration: 1s; 
+      animation-iteration-count: infinite; 
+      animation-timing-function: ease-in-out;
+      animation-name: grow; 
+    }
+  }
+
+  &.waiting {
+    $color: #bbb;
+    border-color: $color;
+    
+    &:before {
+      width: 3px;
+      height: 4px;
+      top: 2px;
+      margin-left: -1px;
+      content: '';
+      border-left: 2px solid $color;
+      border-bottom: 2px solid $color;
+    }
+  }
+}
+
+@keyframes grow {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.75); }
+  100% { transform: scale(1); }
+}

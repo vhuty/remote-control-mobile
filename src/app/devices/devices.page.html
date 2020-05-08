@@ -9,16 +9,17 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <ion-label>{{ devices.length ? 'Your devices:' : 'No binded devices yet' }}</ion-label>
+      <ion-label>{{ devices.length ? 'Your devices:' : 'No connected devices yet' }}</ion-label>
     </ion-list-header>
     <ion-item-sliding *ngFor="let device of devices">
-      <ion-card>
+      <ion-card [disabled]="device.status !== 'online'">
         <ion-item-options side="end">
           <ion-item-option (click)="forgetDevice(device)">Forget</ion-item-option>
         </ion-item-options>
         <ion-item lines="none" (click)="activateDevice(device)">
           <ion-icon name="desktop" slot="start"></ion-icon>
           <ion-label>{{ device.name }}</ion-label>
+          <div slot="end" class="status" [ngClass]="device.status"></div>
         </ion-item>
       </ion-card>
     </ion-item-sliding>

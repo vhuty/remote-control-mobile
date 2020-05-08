@@ -1,3 +1,4 @@
+
 <ion-toolbar [color]="isRecording ? 'danger' : 'primary'">
   <ion-buttons slot="start">
     <ion-back-button></ion-back-button>
@@ -7,6 +8,11 @@
 
 <ion-content fullscreen class="ion-padding">
   <ion-grid class="speech-container">
+    <ion-row>
+      <div id="player">
+        <video #player id="video" preload="auto" autoplay="autoplay" controls controlslist="nodownload noremoteplayback"></video>
+      </div>
+    </ion-row>
     <ion-row class="speech-row">
       <ion-col>
         <ion-button class="talk-btn" size="large" (click)="startListening()">

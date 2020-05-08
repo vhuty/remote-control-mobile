@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ToastService } from '@app/services';
-import { ControllerService } from '@app/services/controller';
+import { ApiService } from '@app/services/api';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
@@ -11,7 +11,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 })
 export class Binding {
   constructor(
-    private controller: ControllerService,
+    private api: ApiService,
     private scanner: BarcodeScanner,
     private router: Router,
     private toast: ToastService
@@ -19,9 +19,19 @@ export class Binding {
 
   async bindController(key) {
     try {
-      const result = await this.controller.bind(key);
+      const { device, error } = await this.api.bind(key);
 
-      return result;
+      if (error) {
+        const { message } = error;
+        this.toast.present(message);
+
+        return;
+      }
+
+      await this.api.sync();
+
+      await this.router.navigate(['tabs', 'devices']);
+      this.toast.present(`Added: ${device.name}`);
     } catch (err) {
       console.error(err);
     }
@@ -35,16 +45,7 @@ export class Binding {
 
     const { cancelled, text } = result;
     if (!cancelled) {
-      const { device, error } = await this.bindController(text);
-      if (error) {
-        const { message } = error;
-        this.toast.present(message);
-
-        return;
-      }
-
-      await this.router.navigate(['tabs', 'devices']);
-      this.toast.present(`Added: ${device.name}`);
+      this.bindController(text);
     }
   }
 }

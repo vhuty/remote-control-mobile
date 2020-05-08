@@ -14,7 +14,7 @@ import { Device } from '@ionic-native/device/ngx';
 import { Network } from '@ionic-native/network/ngx';
 
 import { NetworkService, ToastService } from '@app/services';
-import { ControllerService } from '@app/services/controller';
+import { ApiService } from '@app/services/api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,11 +26,11 @@ import { ControllerService } from '@app/services/controller';
     NativeStorage,
     Device,
     Network,
-    ControllerService,
+    ApiService,
     NetworkService,
     ToastService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

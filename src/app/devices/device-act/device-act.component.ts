@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { ToastService } from '@app/services';
 
@@ -7,21 +7,24 @@ import { ToastService } from '@app/services';
   templateUrl: './device-act.component.html',
   styleUrls: ['./device-act.component.scss'],
 })
-export class DeviceActComponent {
-  @Input() device;
+export class DeviceActComponent implements OnInit {
   @Input() connection: WebSocket;
+  @Input() device: any;
+  @Input() controller: any;
+  @Input() stream: any;
+  @Input() loading: any;
+  @ViewChild('player', { static: true }) player: ElementRef;
 
   constructor(
     private speechRecognition: SpeechRecognition,
     private toast: ToastService
   ) {}
 
-  async ionViewWillEnter() {
-    this.connection.onmessage = event => {
-      const { payload } = JSON.parse(event.data);
+  async ngOnInit() {
+    const player = this.player.nativeElement;
+    player.srcObject = this.stream;
 
-      this.toast.present(`${this.device.name}: ${payload}`);
-    };
+    this.loading.dismiss();
   }
 
   async startListening() {
@@ -38,8 +41,14 @@ export class DeviceActComponent {
     }
 
     this.speechRecognition.startListening().subscribe({
-      next: ([message]) => {
-        this.connection.send(JSON.stringify({ message }));
+      next: ([data]) => {
+        const message = JSON.stringify({
+          source: this.controller.uuid,
+          target: this.device.id,
+          data,
+        });
+
+        this.connection.send(message);
       },
       error: err => {
         console.error(err);
