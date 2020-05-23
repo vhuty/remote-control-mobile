@@ -17,7 +17,7 @@ export class ApiService {
   async register() {
     const { uuid, model } = this._controller;
 
-    await fetch(`${env.apiUrlHttp}/controller/`, {
+    return fetch(`${env.apiUrlHttp}/controller/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
@@ -123,9 +123,19 @@ export class ApiService {
       body: JSON.stringify({ id: uuid, key }),
     });
 
-    const data = await res.json();
+    if(!res.ok) {
+      const data = await res.json();
 
-    return data;
+      const { message } = data;
+
+      return {
+        error: {
+          message,
+        },
+      };
+    }
+
+    return {};
   }
 
   async getDevices() {

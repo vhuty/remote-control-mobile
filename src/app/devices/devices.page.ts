@@ -5,6 +5,7 @@ import { ApiService } from '@app/services/api';
 
 import { DeviceActComponent } from './device-act/device-act.component';
 import { ToastService } from '@app/services';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'devices.page.html',
@@ -18,23 +19,24 @@ export class Devices implements OnInit {
     private modalController: ModalController,
     public loadingController: LoadingController,
     private toast: ToastService,
-    private events: Events
+    private events: Events,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     await this.api.sync();
 
-    this.api.connection.addEventListener('message', async (event) => {
+    this.api.connection.addEventListener('message', async event => {
       const message = JSON.parse(event.data);
       const { source, data, status, signal } = message;
 
       const device = this.devices.find(({ id }) => id === source);
 
-      if(device) {
+      if (device) {
         if (status) {
           this.toast.present(`${device.name} is ${status}`);
           this.events.publish('device:status', source, status);
-          
+
           this.devices = await this.api.getDevices();
         }
 
@@ -58,6 +60,10 @@ export class Devices implements OnInit {
     }
   }
 
+  navigateToBinding() {
+    this.router.navigate(['tabs', 'binding']);
+  }
+
   async forgetDevice(device) {
     const { key } = device;
 
@@ -79,7 +85,7 @@ export class Devices implements OnInit {
 
     try {
       const loading = await this.loadingController.create({
-        message: 'Establishing connection...'
+        message: 'Establishing connection...',
       });
 
       loading.present();

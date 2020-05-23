@@ -1,19 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Bind device
-    </ion-title>
+    <ion-buttons slot="start">
+      <img class="header-icon" src="../../assets/icon.png" height="30">
+    </ion-buttons>
+    <ion-title>New device</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid class="scan-container">
-    <ion-row class="ion-justify-content-center">
+    <ion-row class="ion-justify-content-between">
       <ion-col>
-        <ion-input #inputKey placeholder="Enter Key"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-button color="tertiary" shape="round">Bind</ion-button>
+        <ion-card>
+          <ion-item>
+            <ion-icon slot="start" name="key"></ion-icon>
+            <ion-input #inputKey placeholder="Enter access key"></ion-input>
+            <ion-button fill="outline" slot="end" (click)="bindController(inputKey.value)">Bind</ion-button>
+          </ion-item>
+        </ion-card>
       </ion-col>
     </ion-row>
     <ion-row class="scan-row">

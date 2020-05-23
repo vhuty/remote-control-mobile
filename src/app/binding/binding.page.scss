@@ -1,20 +1,24 @@
 .scan-btn {
-    height: 7em;
-    width: 7em;
-    --border-radius: 50%;
+  height: 7em;
+  width: 7em;
+  --border-radius: 50%;
 }
 
 .scan-row {
-    text-align: center;
-    height: 100% !important;
-    align-items: center !important;
-    justify-content: center !important;
+  text-align: center;
+  height: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .scan-container {
-    height: 100% !important;
+  height: 100% !important;
+}
+
+.header-icon {
+  margin-left: 15px;
 }
 
 ion-icon {
-    font-size: 3em;
+  font-size: 3em;
 }

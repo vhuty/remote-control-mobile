@@ -1,16 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Devices
-    </ion-title>
+    <ion-buttons slot="start">
+      <img class="header-icon" src="../../assets/icon.png" height="30">
+    </ion-buttons>
+    <ion-title>My devices</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      <ion-label>{{ devices.length ? 'Your devices:' : 'No connected devices yet' }}</ion-label>
-    </ion-list-header>
+  <ion-list *ngIf="devices.length; else noDevices">
     <ion-item-sliding *ngFor="let device of devices">
       <ion-card [disabled]="device.status !== 'online'">
         <ion-item-options side="end">
@@ -24,4 +22,28 @@
       </ion-card>
     </ion-item-sliding>
   </ion-list>
+  <ng-template #noDevices>
+    <ion-grid class="no-devices-container">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-item>
+              <ion-icon size="large" slot="start" name="search"></ion-icon>
+              <ion-label>No devices...</ion-label>
+            </ion-item>
+            <ion-card-content>
+              You have no devices connected yet
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row class="no-devices-row">
+        <ion-col>
+          <ion-button size="large" expand="full" fill="outline" (click)="navigateToBinding()">
+            Add new one<ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
 </ion-content>
