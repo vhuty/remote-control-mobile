@@ -1,6 +1,7 @@
 import { Component, Input, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { ToastService } from '@app/services';
+import { ApiService } from '@app/services/api';
 
 @Component({
   selector: 'app-device-act',
@@ -15,14 +16,23 @@ export class DeviceActComponent implements OnInit {
   @Input() loading: any;
   @ViewChild('player', { static: true }) player: ElementRef;
 
+
   constructor(
     private speechRecognition: SpeechRecognition,
-    private toast: ToastService
+    private toast: ToastService,
+    private api: ApiService,
   ) {}
 
   async ngOnInit() {
     const player = this.player.nativeElement;
     player.srcObject = this.stream;
+
+    const { error, data } = await this.api.getDeviceCommands(this.device.id);
+    if(error) {
+      console.error(error);
+
+      return;
+    }
 
     this.loading.dismiss();
   }
@@ -30,7 +40,7 @@ export class DeviceActComponent implements OnInit {
   async startListening() {
     const isAvailable = await this.speechRecognition.isRecognitionAvailable();
     if (!isAvailable) {
-      this.toast.present('Unfortunately, device does not support this feature');
+      this.toast.present('Unfortunately, this device does not support this feature');
 
       return;
     }
@@ -50,7 +60,7 @@ export class DeviceActComponent implements OnInit {
 
         this.connection.send(message);
       },
-      error: err => {
+      error: (err) => {
         console.error(err);
       },
     });

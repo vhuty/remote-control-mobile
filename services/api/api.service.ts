@@ -71,7 +71,7 @@ export class ApiService {
       console.error(err);
     }
   }
-  
+
   /**
    *
    * @param key Device key to bind
@@ -102,7 +102,9 @@ export class ApiService {
         };
       }
 
-      return data;
+      return {
+        device: data,
+      };
     } catch (err) {
       console.error(err);
     }
@@ -123,7 +125,7 @@ export class ApiService {
       body: JSON.stringify({ id: uuid, key }),
     });
 
-    if(!res.ok) {
+    if (!res.ok) {
       const data = await res.json();
 
       const { message } = data;
@@ -147,6 +149,19 @@ export class ApiService {
     });
 
     return res.json();
+  }
+
+  async getDeviceCommands(deviceId) {
+    const res = await fetch(`${env.apiUrlHttp}/device/${deviceId}/commands`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        error: data.message,
+      };
+    }
+
+    return { data };
   }
 
   public get connection(): WebSocket {

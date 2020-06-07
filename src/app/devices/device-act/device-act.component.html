@@ -13,6 +13,23 @@
         <video #player id="video" preload="auto" autoplay="autoplay" controls controlslist="nodownload noremoteplayback"></video>
       </div>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list inset="true">
+          <ion-list-header>
+            Custom commands
+          </ion-list-header>
+          <ion-item *ngFor="let command of commands">
+            <ion-icon slot="start" name="terminal-outline"></ion-icon>
+            <ion-label>
+              <h2>Phrase: {{ command.phrase }}</h2>
+              <!-- <h3>I'm a big deal</h3> -->
+              <p>Command: {{ command.body }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
     <ion-row class="speech-row">
       <ion-col>
         <ion-button class="talk-btn" size="large" (click)="startListening()">

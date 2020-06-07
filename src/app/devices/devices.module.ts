@@ -8,14 +8,14 @@ import { DeviceActComponent } from './device-act/device-act.component';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 @NgModule({
-    imports: [
-        IonicModule,
-        CommonModule,
-        FormsModule,
-        RouterModule.forChild([{ path: '', component: Devices }])
-    ],
-    providers: [ SpeechRecognition ],
-    declarations: [Devices, DeviceActComponent],
-    entryComponents: [DeviceActComponent]
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    RouterModule.forChild([{ path: '', component: Devices }]),
+  ],
+  providers: [SpeechRecognition],
+  declarations: [Devices, DeviceActComponent],
+  entryComponents: [DeviceActComponent],
 })
-export class DevicesModule { }
+export class DevicesModule {}
