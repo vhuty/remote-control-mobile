@@ -14,14 +14,14 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.1.2",
-    "@angular/cdk": "~8.2.3",
+    "@angular/cdk": "~9.2.4",
     "@angular/common": "^9.1.9",
     "@angular/core": "^9.1.9",
     "@angular/forms": "~8.1.2",
-    "@angular/material": "^8.2.3",
+    "@angular/material": "^9.2.4",
     "@angular/platform-browser": "^9.1.9",
     "@angular/platform-browser-dynamic": "^9.1.9",
-    "@angular/router": "~8.1.2",
+    "@angular/router": "~9.1.9",
     "@ionic-native/barcode-scanner": "^5.26.0",
     "@ionic-native/core": "^5.26.0",
     "@ionic-native/device": "^5.26.0",
@@ -45,12 +45,11 @@
     "cordova-plugin-uniquedeviceid": "^1.3.2",
     "cordova-plugin-websocket": "^0.12.2",
     "core-js": "^2.5.4",
-    "hammerjs": "^2.0.8",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "^6.5.5",
     "simple-peer": "^9.7.2",
     "tslib": "^1.13.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
@@ -60,7 +59,7 @@
     "@angular/cli": "^9.1.7",
     "@angular/compiler": "^9.1.9",
     "@angular/compiler-cli": "^9.1.9",
-    "@angular/language-service": "^8.2.14",
+    "@angular/language-service": "^9.1.9",
     "@ionic/angular-toolkit": "^2.2.0",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
@@ -83,7 +82,7 @@
     "protractor": "^5.4.4",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.4.3"
+    "typescript": "~3.8.3"
   },
   "description": "An Ionic project",
   "cordova": {
