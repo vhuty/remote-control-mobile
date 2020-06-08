@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, Events, LoadingController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
+import { Subject } from 'rxjs';
 
 import { ApiService } from '@app/services/api';
 
@@ -12,21 +13,32 @@ import { Router } from '@angular/router';
   styleUrls: ['devices.page.scss'],
 })
 export class Devices implements OnInit {
+  private statusSubject: Subject<EventPayload>;
+  private signalSubject: Subject<EventPayload>;
+
   private devices = [];
+
+  private readonly DEVICE_ICONS = {
+    Linux: 'logo-tux',
+    Windows_NT: 'logo-windows',
+    Darwin: 'logo-apple',
+  };
 
   constructor(
     private api: ApiService,
     private modalController: ModalController,
     public loadingController: LoadingController,
     private toast: ToastService,
-    private events: Events,
     private router: Router
-  ) {}
+  ) {
+    this.statusSubject = new Subject<EventPayload>();
+    this.signalSubject = new Subject<EventPayload>();
+  }
 
   async ngOnInit() {
     await this.api.sync();
 
-    this.api.connection.addEventListener('message', async event => {
+    this.api.connection.addEventListener('message', async (event) => {
       const message = JSON.parse(event.data);
       const { source, data, status, signal } = message;
 
@@ -35,13 +47,13 @@ export class Devices implements OnInit {
       if (device) {
         if (status) {
           this.toast.present(`${device.name} is ${status}`);
-          this.events.publish('device:status', source, status);
+          this.statusSubject.next({ source, status });
 
           this.devices = await this.api.getDevices();
         }
 
         if (signal) {
-          this.events.publish('device:signal', source, signal);
+          this.signalSubject.next({ source, signal });
         }
 
         if (data) {
@@ -105,7 +117,7 @@ export class Devices implements OnInit {
         trickle: false,
       });
 
-      peer.on('signal', signal => {
+      peer.on('signal', (signal) => {
         const data = JSON.stringify({
           source: controller.uuid,
           target: device.id,
@@ -115,19 +127,19 @@ export class Devices implements OnInit {
         connection.send(data);
       });
 
-      this.events.subscribe('device:signal', (source, signal) => {
+      this.signalSubject.subscribe(({ source, signal }) => {
         if (source === device.id) {
           peer.signal(signal);
         }
       });
 
-      this.events.subscribe('device:status', (source, status) => {
+      this.statusSubject.subscribe(({ source, status }) => {
         if (source === device.id && status === 'offline') {
           modal.dismiss();
         }
       });
 
-      peer.on('stream', async stream => {
+      peer.on('stream', async (stream) => {
         modal.componentProps.stream = stream;
 
         await modal.present();
@@ -141,3 +153,9 @@ export class Devices implements OnInit {
     }
   }
 }
+
+type EventPayload = {
+  source: string;
+  status?: string;
+  signal?: string;
+};

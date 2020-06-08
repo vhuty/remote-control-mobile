@@ -151,8 +151,10 @@ export class ApiService {
     return res.json();
   }
 
-  async getDeviceCommands(deviceId) {
-    const res = await fetch(`${env.apiUrlHttp}/device/${deviceId}/commands`);
+  async getCommands(deviceId) {
+    const res = await fetch(
+      `${env.apiUrlHttp}/device/${deviceId}/commands/?defaults=true`
+    );
     const data = await res.json();
 
     if (!res.ok) {

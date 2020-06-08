@@ -1,3 +1,4 @@
+import 'hammerjs';
 /// <reference path="../typings/simple-peer-typings.d.ts"/>
 
 import { enableProdMode } from '@angular/core';

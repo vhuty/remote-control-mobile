@@ -16,11 +16,20 @@ import { Network } from '@ionic-native/network/ngx';
 
 import { NetworkService, ToastService } from '@app/services';
 import { ApiService } from '@app/services/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatExpansionModule, MatExpansionPanelTitle } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatExpansionModule,
+    MatExpansionPanelTitle
+  ],
   providers: [
     StatusBar,
     SplashScreen,

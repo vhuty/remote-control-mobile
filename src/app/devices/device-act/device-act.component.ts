@@ -16,31 +16,51 @@ export class DeviceActComponent implements OnInit {
   @Input() loading: any;
   @ViewChild('player', { static: true }) player: ElementRef;
 
+  private commands = [];
+  private readonly COMMANDS_ICONS = {
+    MUTE: 'volume-mute-outline',
+    SHUTDOWN: 'power-outline',
+    REBOOT: 'reload-outline',
+    CANCEL: 'arrow-undo-outline',
+    LOGOUT: 'lock-closed-outline',
+    TOGGLE: 'open-outline',
+    SWITCH: 'copy-outline',
+    CLOSE: 'close-outline',
+    GOOGLE: 'logo-google',
+    BROWSE: 'browsers-outline',
+    SEARCH: 'search-outline',
+    NOTE: 'reader-outline',
+    TYPE: 'text-outline',
+    KEY: 'cube-outline',
+  };
 
   constructor(
     private speechRecognition: SpeechRecognition,
     private toast: ToastService,
-    private api: ApiService,
+    private api: ApiService
   ) {}
 
   async ngOnInit() {
     const player = this.player.nativeElement;
     player.srcObject = this.stream;
 
-    const { error, data } = await this.api.getDeviceCommands(this.device.id);
-    if(error) {
+    const { error, data } = await this.api.getCommands(this.device.id);
+    if (error) {
       console.error(error);
 
       return;
     }
 
+    this.commands = data;
     this.loading.dismiss();
   }
 
   async startListening() {
     const isAvailable = await this.speechRecognition.isRecognitionAvailable();
     if (!isAvailable) {
-      this.toast.present('Unfortunately, this device does not support this feature');
+      this.toast.present(
+        'Unfortunately, this device does not support this feature'
+      );
 
       return;
     }
@@ -64,5 +84,17 @@ export class DeviceActComponent implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  getCommands(defaults: boolean) {
+    if(defaults) {
+      return this.commands.filter(cmd => !cmd.deviceId);
+    }
+
+    return this.commands.filter(cmd => cmd.deviceId);
+  }
+
+  getCommandIcon(code: string) {
+    return this.COMMANDS_ICONS[code];
   }
 }

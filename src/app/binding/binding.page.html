@@ -13,7 +13,7 @@
       <ion-col>
         <ion-card>
           <ion-item>
-            <ion-icon slot="start" name="key"></ion-icon>
+            <ion-icon slot="start" name="key-outline"></ion-icon>
             <ion-input #inputKey placeholder="Enter access key"></ion-input>
             <ion-button fill="outline" slot="end" (click)="bindController(inputKey.value)">Bind</ion-button>
           </ion-item>
@@ -22,8 +22,8 @@
     </ion-row>
     <ion-row class="scan-row">
       <ion-col>
-        <ion-button class="scan-btn" size="large" (click)="scanCode()">
-          <ion-icon name="qr-scanner"></ion-icon>
+        <ion-button color="tertiary" class="scan-btn" size="large" (click)="scanCode()">
+          <ion-icon name="qr-code-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>

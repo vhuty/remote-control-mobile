@@ -15,25 +15,51 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-list inset="true">
+        <ion-list class="command-list">
           <ion-list-header>
             Custom commands
           </ion-list-header>
-          <ion-item *ngFor="let command of commands">
+          <ion-item *ngFor="let command of getCommands(false)">
             <ion-icon slot="start" name="terminal-outline"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              <h2>Phrase: {{ command.phrase }}</h2>
+              <p>Command: {{ command.body }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list class="command-list">
+          <ion-list-header>
+            Default commands
+          </ion-list-header>
+          <ion-item *ngFor="let command of getCommands(true)">
+            <ion-icon slot="start" [name]="getCommandIcon(command.code)"></ion-icon>
             <ion-label>
               <h2>Phrase: {{ command.phrase }}</h2>
-              <!-- <h3>I'm a big deal</h3> -->
               <p>Command: {{ command.body }}</p>
             </ion-label>
           </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            This is the expansion title
+          </mat-panel-title>
+          <mat-panel-description>
+            This is a summary of the content
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      
+        <p>This is the primary content of the panel.</p>
+      
+      </mat-expansion-panel>
+    </ion-row>
     <ion-row class="speech-row">
       <ion-col>
         <ion-button class="talk-btn" size="large" (click)="startListening()">
-          <ion-icon name="mic"></ion-icon>
+          <ion-icon name="mic-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
