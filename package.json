@@ -20,7 +20,7 @@
     "@angular/forms": "~8.1.2",
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~8.1.2",
-    "@angular/platform-browser-dynamic": "~8.1.2",
+    "@angular/platform-browser-dynamic": "^9.1.9",
     "@angular/router": "~8.1.2",
     "@ionic-native/barcode-scanner": "^5.26.0",
     "@ionic-native/core": "^5.26.0",
