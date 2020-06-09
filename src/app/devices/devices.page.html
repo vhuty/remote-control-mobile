@@ -15,7 +15,7 @@
           <ion-item-option (click)="forgetDevice(device)">Forget</ion-item-option>
         </ion-item-options>
         <ion-item lines="none" (click)="activateDevice(device)">
-          <ion-icon [name]="DEVICE_ICONS[device.type]" slot="start"></ion-icon>
+          <ion-icon [name]="getDeviceIcon(device.type)" slot="start"></ion-icon>
           <ion-label>{{ device.name }}</ion-label>
           <div slot="end" class="status" [ngClass]="device.status"></div>
         </ion-item>
@@ -40,7 +40,7 @@
       <ion-row class="no-devices-row">
         <ion-col>
           <ion-button size="large" expand="full" fill="outline" (click)="navigateToBinding()">
-            Add new one<ion-icon slot="end" name="arrow-round-forward"></ion-icon>
+            Add new one<ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
           </ion-button>
         </ion-col>
       </ion-row>

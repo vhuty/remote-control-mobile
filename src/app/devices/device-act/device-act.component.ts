@@ -2,6 +2,9 @@ import { Component, Input, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { ToastService } from '@app/services';
 import { ApiService } from '@app/services/api';
+import { ModalController } from '@ionic/angular';
+
+import { COMMANDS_ICONS, DEVICE_ICONS } from '../../../constants';
 
 @Component({
   selector: 'app-device-act',
@@ -17,27 +20,12 @@ export class DeviceActComponent implements OnInit {
   @ViewChild('player', { static: true }) player: ElementRef;
 
   private commands = [];
-  private readonly COMMANDS_ICONS = {
-    MUTE: 'volume-mute-outline',
-    SHUTDOWN: 'power-outline',
-    REBOOT: 'reload-outline',
-    CANCEL: 'arrow-undo-outline',
-    LOGOUT: 'lock-closed-outline',
-    TOGGLE: 'open-outline',
-    SWITCH: 'copy-outline',
-    CLOSE: 'close-outline',
-    GOOGLE: 'logo-google',
-    BROWSE: 'browsers-outline',
-    SEARCH: 'search-outline',
-    NOTE: 'reader-outline',
-    TYPE: 'text-outline',
-    KEY: 'cube-outline',
-  };
 
   constructor(
     private speechRecognition: SpeechRecognition,
     private toast: ToastService,
-    private api: ApiService
+    private api: ApiService,
+    private modalCtrl: ModalController,
   ) {}
 
   async ngOnInit() {
@@ -95,6 +83,10 @@ export class DeviceActComponent implements OnInit {
   }
 
   getCommandIcon(code: string) {
-    return this.COMMANDS_ICONS[code];
+    return COMMANDS_ICONS[code];
+  }
+
+  getDeviceIcon(platform: string) {
+    return DEVICE_ICONS[platform];
   }
 }

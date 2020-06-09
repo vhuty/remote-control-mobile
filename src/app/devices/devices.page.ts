@@ -8,6 +8,8 @@ import { DeviceActComponent } from './device-act/device-act.component';
 import { ToastService } from '@app/services';
 import { Router } from '@angular/router';
 
+import { DEVICE_ICONS } from '../../constants';
+
 @Component({
   templateUrl: 'devices.page.html',
   styleUrls: ['devices.page.scss'],
@@ -17,12 +19,6 @@ export class Devices implements OnInit {
   private signalSubject: Subject<EventPayload>;
 
   private devices = [];
-
-  private readonly DEVICE_ICONS = {
-    Linux: 'logo-tux',
-    Windows_NT: 'logo-windows',
-    Darwin: 'logo-apple',
-  };
 
   constructor(
     private api: ApiService,
@@ -151,6 +147,10 @@ export class Devices implements OnInit {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  getDeviceIcon(platform: string) {
+    return DEVICE_ICONS[platform];
   }
 }
 

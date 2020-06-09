@@ -1,10 +1,17 @@
 
-<ion-toolbar [color]="isRecording ? 'danger' : 'primary'">
-  <ion-buttons slot="start">
-    <ion-back-button></ion-back-button>
-  </ion-buttons>
-  <ion-title>{{ device.name }}</ion-title>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="modalCtrl.dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back-outline" shape="round" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ device.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon [name]="getDeviceIcon(device.type)" size="large"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content fullscreen class="ion-padding">
   <ion-grid class="speech-container">
@@ -13,48 +20,35 @@
         <video #player id="video" preload="auto" autoplay="autoplay" controls controlslist="nodownload noremoteplayback"></video>
       </div>
     </ion-row>
-    <ion-row>
+    <ion-row class="commands-row">
       <ion-col>
         <ion-list class="command-list">
-          <ion-list-header>
-            Custom commands
-          </ion-list-header>
-          <ion-item *ngFor="let command of getCommands(false)">
-            <ion-icon slot="start" name="terminal-outline"></ion-icon>
-            <ion-label class="ion-text-wrap">
-              <h2>Phrase: {{ command.phrase }}</h2>
-              <p>Command: {{ command.body }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-        <ion-list class="command-list">
-          <ion-list-header>
-            Default commands
-          </ion-list-header>
-          <ion-item *ngFor="let command of getCommands(true)">
-            <ion-icon slot="start" [name]="getCommandIcon(command.code)"></ion-icon>
-            <ion-label>
-              <h2>Phrase: {{ command.phrase }}</h2>
-              <p>Command: {{ command.body }}</p>
-            </ion-label>
-          </ion-item>
+          <ion-list>
+            <ion-list-header>
+              Custom commands
+            </ion-list-header>
+            <ion-item *ngFor="let command of getCommands(false)">
+              <ion-icon slot="start" name="terminal-outline"></ion-icon>
+              <ion-label class="ion-text-wrap">
+                <h4>Phrase: "{{ command.phrase }}"</h4>
+                <p>Command: ${{ command.body }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-list>
+            <ion-list-header>
+              Default commands
+            </ion-list-header>
+            <ion-item *ngFor="let command of getCommands(true)">
+              <ion-icon slot="start" [name]="getCommandIcon(command.code)"></ion-icon>
+              <ion-label class="ion-text-wrap">
+                <h4>Phrase: "{{ command.phrase }}"</h4>
+                <p>Command: {{ command.body }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
         </ion-list>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            This is the expansion title
-          </mat-panel-title>
-          <mat-panel-description>
-            This is a summary of the content
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-      
-        <p>This is the primary content of the panel.</p>
-      
-      </mat-expansion-panel>
     </ion-row>
     <ion-row class="speech-row">
       <ion-col>

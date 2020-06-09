@@ -11,6 +11,10 @@
   justify-content: center !important;
 }
 
+.commands-row {
+  max-width: -webkit-fill-available;
+}
+
 .speech-container {
   height: 100% !important;
   display: flex;
@@ -20,7 +24,6 @@
 
 .command-list {
   max-height: 260px;
-  width: 350px;
   overflow: scroll;
 }
 

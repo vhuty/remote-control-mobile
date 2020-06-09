@@ -6,6 +6,9 @@
       "@app/env": [
         "src/environments/environment"
       ],
+      "@app/constants": [
+        "src/constants"
+      ],
       "@app/services": [
         "services"
       ],
