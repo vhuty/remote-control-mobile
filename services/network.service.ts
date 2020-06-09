@@ -16,7 +16,9 @@ export class NetworkService {
     private alertController: AlertController,
     private toast: ToastService,
     private nativeSettings: OpenNativeSettings,
-  ) {}
+  ) {
+    this.state = NetworkStatus.ONLINE;
+  }
 
   async listen() {
     if(this.network.type === this.network.Connection.NONE) {
