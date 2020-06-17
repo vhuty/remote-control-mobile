@@ -23,7 +23,7 @@
     <ion-row class="commands-row">
       <ion-col>
         <ion-list class="command-list">
-          <ion-list>
+          <ion-list *ngIf="getCommands(false).length">
             <ion-list-header>
               Custom commands
             </ion-list-header>
