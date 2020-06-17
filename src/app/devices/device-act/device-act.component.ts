@@ -25,7 +25,7 @@ export class DeviceActComponent implements OnInit {
     private speechRecognition: SpeechRecognition,
     private toast: ToastService,
     private api: ApiService,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
   ) {}
 
   async ngOnInit() {

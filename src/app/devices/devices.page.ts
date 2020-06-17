@@ -18,11 +18,11 @@ export class Devices implements OnInit {
   private statusSubject: Subject<EventPayload>;
   private signalSubject: Subject<EventPayload>;
 
-  private devices = [];
+  public devices = [];
 
   constructor(
     private api: ApiService,
-    private modalController: ModalController,
+    public modalController: ModalController,
     public loadingController: LoadingController,
     private toast: ToastService,
     private router: Router

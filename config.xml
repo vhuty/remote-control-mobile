@@ -3,7 +3,7 @@
     <name>RemoteControl</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://localhost:8103" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -104,4 +104,5 @@
     <allow-navigation href="http://localhost:8101" sessionid="c84dfb72" />
     <allow-navigation href="http://localhost:8102" sessionid="7b5998f7" />
     <allow-navigation href="http://localhost:8103" sessionid="c6dde28a" />
+    <allow-navigation href="http://localhost:8104" sessionid="6bf43803" />
 </widget>
